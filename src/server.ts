@@ -22,6 +22,7 @@ const personHandlers: AdderssBookServiceHandlers = {
     };
 
     PERSONS.push(person);
+    console.log("Person added", person);
     callback(null, person);
   },
 
@@ -35,6 +36,8 @@ const personHandlers: AdderssBookServiceHandlers = {
       });
       return;
     }
+
+    console.log("Person retrieved", person);
     callback(null, person);
   },
 
@@ -49,6 +52,7 @@ const personHandlers: AdderssBookServiceHandlers = {
       });
     } else {
       const deletePerson = PERSONS.splice(personIndex, 1);
+      console.log("Person deleted", deletePerson[0]);
       callback(null, deletePerson[0]);
     }
   },

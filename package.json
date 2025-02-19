@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsc -b && node dist/index.js"
+    "start:server": "tsc -b && node dist/server.js",
+    "start:client": "tsc -b && node dist/client.js",
+    "generate-types": "proto-loader-gen-types --longs=String --enums=String --defaults --oneofs --grpcLib=@grpc/grpc-js --outDir=src/proto ./proto/user.proto"
   },
   "keywords": [],
   "author": "",
