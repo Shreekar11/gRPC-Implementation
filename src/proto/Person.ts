@@ -1,4 +1,4 @@
-// Original file: src/a.proto
+// Original file: proto/user.proto
 
 
 export interface Person {

@@ -1,12 +1,12 @@
 import path from "path";
 import * as grpc from "@grpc/grpc-js";
 import * as protoLoader from "@grpc/proto-loader";
-import { ProtoGrpcType } from "./proto/a";
-import { AdderssBookServiceHandlers } from "./proto/AdderssBookService";
 import { Person } from "./proto/Person";
+import { ProtoGrpcType } from "./proto/user";
+import { AdderssBookServiceHandlers } from "./proto/AdderssBookService";
 
 const packageDefinition = protoLoader.loadSync(
-  path.join(__dirname, "../src/a.proto")
+  path.join(__dirname, "../proto/user.proto")
 );
 const personProto = grpc.loadPackageDefinition(
   packageDefinition
@@ -28,6 +28,13 @@ const personHandlers: AdderssBookServiceHandlers = {
   GetPersonByName: (call, callback) => {
     const { name } = call.request;
     const person = PERSONS.find((p) => p.name === name);
+    if (!person) {
+      callback({
+        code: grpc.status.NOT_FOUND,
+        details: "Not found",
+      });
+      return;
+    }
     callback(null, person);
   },
 

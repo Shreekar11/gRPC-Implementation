@@ -39,26 +39,48 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const path_1 = __importDefault(require("path"));
 const grpc = __importStar(require("@grpc/grpc-js"));
 const protoLoader = __importStar(require("@grpc/proto-loader"));
-const packageDefinition = protoLoader.loadSync(path_1.default.join(__dirname, "../src/a.proto"));
+const packageDefinition = protoLoader.loadSync(path_1.default.join(__dirname, "../proto/user.proto"));
 const personProto = grpc.loadPackageDefinition(packageDefinition);
 const PERSONS = [];
-// @ts-ignore
-// call = req
-// callback = res
-function addPerson(call, callback) {
-    let person = {
-        name: call.request.name,
-        age: call.request.age,
-    };
-    PERSONS.push(person);
-    callback(null, person);
-}
+const personHandlers = {
+    AddPerson: (call, callback) => {
+        let person = {
+            name: call.request.name,
+            age: call.request.age,
+        };
+        PERSONS.push(person);
+        callback(null, person);
+    },
+    GetPersonByName: (call, callback) => {
+        const { name } = call.request;
+        const person = PERSONS.find((p) => p.name === name);
+        if (!person) {
+            callback({
+                code: grpc.status.NOT_FOUND,
+                details: "Not found",
+            });
+            return;
+        }
+        callback(null, person);
+    },
+    DeleteUserByName: (call, callback) => {
+        const { name } = call.request;
+        const personIndex = PERSONS.findIndex((p) => p.name === name);
+        if (personIndex === -1) {
+            callback({
+                code: grpc.status.NOT_FOUND,
+                details: "Person Not found",
+            });
+        }
+        else {
+            const deletePerson = PERSONS.splice(personIndex, 1);
+            callback(null, deletePerson[0]);
+        }
+    },
+};
 // const app = express();
 const server = new grpc.Server();
-// @ts-ignore
-server.addService(personProto.AdderssBookService.service, {
-    addPerson: addPerson,
-});
+server.addService(personProto.AdderssBookService.service, personHandlers);
 // localhost:50051
 server.bindAsync("0.0.0.0:50051", grpc.ServerCredentials.createInsecure(), () => {
     server.start();

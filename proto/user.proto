@@ -13,6 +13,7 @@ service AdderssBookService {
     // Get a person by their name
     rpc GetPersonByName(GetPersonByNameRequest) returns (Person);
 
+    // Delete a person by their name
     rpc DeleteUserByName(GetPersonByNameRequest) returns (Person);
 }
 
