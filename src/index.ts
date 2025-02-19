@@ -1,34 +1,55 @@
 import path from "path";
 import * as grpc from "@grpc/grpc-js";
 import * as protoLoader from "@grpc/proto-loader";
+import { ProtoGrpcType } from "./proto/a";
+import { AdderssBookServiceHandlers } from "./proto/AdderssBookService";
+import { Person } from "./proto/Person";
 
 const packageDefinition = protoLoader.loadSync(
   path.join(__dirname, "../src/a.proto")
 );
-const personProto = grpc.loadPackageDefinition(packageDefinition);
+const personProto = grpc.loadPackageDefinition(
+  packageDefinition
+) as unknown as ProtoGrpcType;
 
-const PERSONS = [];
+const PERSONS: Person[] = [];
 
-// @ts-ignore
+const personHandlers: AdderssBookServiceHandlers = {
+  AddPerson: (call, callback) => {
+    let person = {
+      name: call.request.name,
+      age: call.request.age,
+    };
 
-// call = req
-// callback = res
-function addPerson(call, callback) {
-  let person = {
-    name: call.request.name,
-    age: call.request.age,
-  };
+    PERSONS.push(person);
+    callback(null, person);
+  },
 
-  PERSONS.push(person);
-  callback(null, person);
-}
+  GetPersonByName: (call, callback) => {
+    const { name } = call.request;
+    const person = PERSONS.find((p) => p.name === name);
+    callback(null, person);
+  },
+
+  DeleteUserByName: (call, callback) => {
+    const { name } = call.request;
+    const personIndex = PERSONS.findIndex((p) => p.name === name);
+
+    if (personIndex === -1) {
+      callback({
+        code: grpc.status.NOT_FOUND,
+        details: "Person Not found",
+      });
+    } else {
+      const deletePerson = PERSONS.splice(personIndex, 1);
+      callback(null, deletePerson[0]);
+    }
+  },
+};
 
 // const app = express();
 const server = new grpc.Server();
-// @ts-ignore
-server.addService(personProto.AdderssBookService.service, {
-  addPerson: addPerson,
-});
+server.addService(personProto.AdderssBookService.service, personHandlers);
 
 // localhost:50051
 server.bindAsync(
