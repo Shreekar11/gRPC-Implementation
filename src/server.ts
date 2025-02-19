@@ -3,7 +3,7 @@ import * as grpc from "@grpc/grpc-js";
 import * as protoLoader from "@grpc/proto-loader";
 import { Person } from "./proto/Person";
 import { ProtoGrpcType } from "./proto/user";
-import { AdderssBookServiceHandlers } from "./proto/AdderssBookService";
+import { PersonServiceHandlers } from "./proto/PersonService";
 
 const packageDefinition = protoLoader.loadSync(
   path.join(__dirname, "../proto/user.proto")
@@ -14,7 +14,7 @@ const personProto = grpc.loadPackageDefinition(
 
 const PERSONS: Person[] = [];
 
-const personHandlers: AdderssBookServiceHandlers = {
+const personHandlers: PersonServiceHandlers = {
   AddPerson: (call, callback) => {
     let person = {
       name: call.request.name,
@@ -60,7 +60,7 @@ const personHandlers: AdderssBookServiceHandlers = {
 
 // const app = express();
 const server = new grpc.Server();
-server.addService(personProto.AdderssBookService.service, personHandlers);
+server.addService(personProto.PersonService.service, personHandlers);
 
 // localhost:50051
 server.bindAsync(

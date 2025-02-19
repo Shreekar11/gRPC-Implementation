@@ -6,7 +6,7 @@ message Person {
     int32 age = 2;
 }
 
-service AdderssBookService {
+service PersonService {
     // Add a person to the address book
     rpc AddPerson(Person) returns (Person);
 

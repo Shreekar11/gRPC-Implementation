@@ -2,10 +2,9 @@
   "root": [
     "./src/client.ts",
     "./src/server.ts",
-    "./src/proto/adderssbookservice.ts",
     "./src/proto/getpersonbynamerequest.ts",
     "./src/proto/person.ts",
-    "./src/proto/a.ts",
+    "./src/proto/personservice.ts",
     "./src/proto/user.ts"
   ],
   "version": "5.7.3"

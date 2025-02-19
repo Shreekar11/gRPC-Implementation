@@ -83,7 +83,7 @@ const personHandlers = {
 };
 // const app = express();
 const server = new grpc.Server();
-server.addService(personProto.AdderssBookService.service, personHandlers);
+server.addService(personProto.PersonService.service, personHandlers);
 // localhost:50051
 server.bindAsync("0.0.0.0:50051", grpc.ServerCredentials.createInsecure(), () => {
     server.start();

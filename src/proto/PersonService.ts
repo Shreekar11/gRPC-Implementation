@@ -5,7 +5,7 @@ import type { MethodDefinition } from '@grpc/proto-loader'
 import type { GetPersonByNameRequest as _GetPersonByNameRequest, GetPersonByNameRequest__Output as _GetPersonByNameRequest__Output } from './GetPersonByNameRequest';
 import type { Person as _Person, Person__Output as _Person__Output } from './Person';
 
-export interface AdderssBookServiceClient extends grpc.Client {
+export interface PersonServiceClient extends grpc.Client {
   AddPerson(argument: _Person, metadata: grpc.Metadata, options: grpc.CallOptions, callback: grpc.requestCallback<_Person__Output>): grpc.ClientUnaryCall;
   AddPerson(argument: _Person, metadata: grpc.Metadata, callback: grpc.requestCallback<_Person__Output>): grpc.ClientUnaryCall;
   AddPerson(argument: _Person, options: grpc.CallOptions, callback: grpc.requestCallback<_Person__Output>): grpc.ClientUnaryCall;
@@ -35,7 +35,7 @@ export interface AdderssBookServiceClient extends grpc.Client {
   
 }
 
-export interface AdderssBookServiceHandlers extends grpc.UntypedServiceImplementation {
+export interface PersonServiceHandlers extends grpc.UntypedServiceImplementation {
   AddPerson: grpc.handleUnaryCall<_Person__Output, _Person>;
   
   DeleteUserByName: grpc.handleUnaryCall<_GetPersonByNameRequest__Output, _Person>;
@@ -44,7 +44,7 @@ export interface AdderssBookServiceHandlers extends grpc.UntypedServiceImplement
   
 }
 
-export interface AdderssBookServiceDefinition extends grpc.ServiceDefinition {
+export interface PersonServiceDefinition extends grpc.ServiceDefinition {
   AddPerson: MethodDefinition<_Person, _Person, _Person__Output, _Person__Output>
   DeleteUserByName: MethodDefinition<_GetPersonByNameRequest, _Person, _GetPersonByNameRequest__Output, _Person__Output>
   GetPersonByName: MethodDefinition<_GetPersonByNameRequest, _Person, _GetPersonByNameRequest__Output, _Person__Output>

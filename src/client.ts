@@ -1,8 +1,8 @@
 import * as grcp from "@grpc/grpc-js";
 import * as protoLoader from "@grpc/proto-loader";
 import path from "path";
-import { ProtoGrpcType } from "./proto/a";
-import { AdderssBookServiceClient } from "./proto/AdderssBookService";
+import { ProtoGrpcType } from "./proto/user";
+import { PersonServiceClient } from "./proto/PersonService";
 
 const packageDefinition = protoLoader.loadSync(
   path.join(__dirname, "../proto/user.proto")
@@ -12,7 +12,7 @@ const personProto = grcp.loadPackageDefinition(
   packageDefinition
 ) as unknown as ProtoGrpcType;
 
-const client: AdderssBookServiceClient = new personProto.AdderssBookService(
+const client: PersonServiceClient = new personProto.PersonService(
   "localhost:50051",
   grcp.credentials.createInsecure()
 );

@@ -50,7 +50,7 @@ const protoLoader = __importStar(require("@grpc/proto-loader"));
 const path_1 = __importDefault(require("path"));
 const packageDefinition = protoLoader.loadSync(path_1.default.join(__dirname, "../proto/user.proto"));
 const personProto = grcp.loadPackageDefinition(packageDefinition);
-const client = new personProto.AdderssBookService("localhost:50051", grcp.credentials.createInsecure());
+const client = new personProto.PersonService("localhost:50051", grcp.credentials.createInsecure());
 function startServer() {
     return __awaiter(this, void 0, void 0, function* () {
         return new Promise((resolve, reject) => {
